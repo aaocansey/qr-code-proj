@@ -12,6 +12,10 @@ const connect = require('./db/db')
 //connect to db
 connect();
 
+//corss origin resource configuration
+const cors = require("cors");
+
+app.use(cors());
 
 // setup route connections
 const lecAuthRoute = require('./routes/lecturerAuth');

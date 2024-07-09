@@ -1,9 +1,9 @@
-import mongoose from 'mongoose';
-
-import lecturerModel, { findOne } from '../models/lecturerModel';
 
 
-export function signUpLecturer(req, res, next) {
+const lecturerModel = require('../models/lecturerModel');
+
+
+exports.signUpLecturer = (req, res, next)=> {
     const {username, email, password} = req.body;
 
     const lecturer = new lecturerModel({username, email, password});
@@ -18,7 +18,7 @@ export function signUpLecturer(req, res, next) {
 }
 
 
-export async function loginLecturer(req, res, next){
+exports.loginLecturer = async (req, res, next) => {
     const {email, passowrd} = req.body
 
     const lecturer = await findOne({email});
