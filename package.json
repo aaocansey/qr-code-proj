@@ -1,0 +1,20 @@
+{
+  "name": "qr-code-proj",
+  "version": "1.0.0",
+  "description": "std-attendance-sys",
+  "main": "app.js",
+  "author": "olivia",
+  "scripts": {
+    "start": "app.js",
+    "dev": "nodemon app"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@types/express": "^4.17.21",
+    "@types/qrcode": "^1.5.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.4.5",
+    "nodemon": "^3.1.4",
+    "qrcode": "^1.5.3"
+  }
+}
