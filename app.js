@@ -5,13 +5,17 @@ const express = require("express");
 const app = express()
 
 //define a port our server will listen from
-const port = process.env.PORT || 3000;
+const port = 3000;
 
 const connect = require('./db/db')
 
 //connect to db
 connect();
 
+//add cookie parser
+const cookieParser = require('cookie-parser')
+
+app.use(cookieParser)
 //corss origin resource configuration
 const cors = require("cors");
 
@@ -27,8 +31,8 @@ app.use(express.json()); // express request body-parser
 
 
 //routes
-app.use('/', lecAuthRoute);
-app.use('/gen', qrcodeRoute);
+app.use('/auth', lecAuthRoute);
+app.use('/app', qrcodeRoute);
 
 // event listner to confirm connection
 app.listen(port, ()=>{console.log('server started')});

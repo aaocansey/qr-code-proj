@@ -5,7 +5,6 @@ exports.genQRCode = async (req, res) => {
         const url = "https://youtube.com";
         const qrCodeImage = await QRCode.toDataURL(url);
         res.send(qrCodeImage);
-        console.log(qrCodeImage);
     } catch (err) {
         console.error("Error generating QR code:", err);
         res.status(500).send("Internal Server Error");
