@@ -1,15 +1,12 @@
 const lecturerModel = require("../models/lecturerModel");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
-const expiresIn="3600"
 
-const createToken = (id) => {
-  try {
-    return jwt.sign(id, process.env.SECRET_KEY, {expiresIn});
-  } catch (error) {
-    console.error("Error creating token:", error);
-    throw error; // Re-throw the error for handling in calling function
-  }
+
+const createToken = (email) => {
+  const maxAge= 3 * 24 *60 *60;
+
+    return jwt.sign({email}, process.env.SECRET_KEY, {expiresIn: maxAge})
 };
 
 const saltRounds = 10;
@@ -61,7 +58,7 @@ exports.loginLecturer = async (req, res, next) => {
     const lecturer = await lecturerModel.findOne({ email });
     
     if (!lecturer) {
-      return res.send({ message: "unsuccessful", data: null });
+      return res.send({ message: "unsuccessful wrong email", data: null });
     }
     
     const isPassword = await bcrypt.compareSync(password, lecturer.password);
@@ -73,10 +70,9 @@ exports.loginLecturer = async (req, res, next) => {
       });
     }
     
-    const token = await createToken({id:lecturer._id});
-    res.cookie('auth_token', token, {httpOnly: true, secure: true});
-    
-    res.send({ message: "login successful",success: true});
+    const token = await createToken(lecturer.email);
+    res.cookie('auth_token', token, {httpOnly: true, maxAge:8640000});
+    res.json({token})
   } catch (error) {  
     console.error("Error logging in lecturer:", error);
     return res.status(500).json({ message: "Error logging in lecturer" });

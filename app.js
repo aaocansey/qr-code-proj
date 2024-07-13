@@ -1,25 +1,31 @@
+require('dotenv').config();
 //import express
 const express = require("express");
+
+const cookieParser = require('cookie-parser');
 
 //instance of express app
 const app = express()
 
 //define a port our server will listen from
-const port = 3000;
-
-const connect = require('./db/db')
+const port = 7000;
 
 //connect to db
+const connect = require('./db/db')
 connect();
 
 //add cookie parser
-const cookieParser = require('cookie-parser')
+app.use(cookieParser())
 
-app.use(cookieParser)
 //corss origin resource configuration
 const cors = require("cors");
-
-app.use(cors());
+const corsOptions = {
+    origin: 'http://localhost:3333', // Replace with your actual frontend URL
+    credentials: true,
+    optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 // setup route connections
 const lecAuthRoute = require('./routes/lecturerAuth');
