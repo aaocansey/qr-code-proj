@@ -20,7 +20,7 @@ app.use(cookieParser())
 //corss origin resource configuration
 const cors = require("cors");
 const corsOptions = {
-    origin: 'http://localhost:3333', // Replace with your actual frontend URL
+    origin: 'http://localhost:5173', // Replace with your actual frontend URL
     credentials: true,
     optionsSuccessStatus: 200,
 };

@@ -71,7 +71,7 @@ exports.loginLecturer = async (req, res, next) => {
     }
     
     const token = await createToken(lecturer.email);
-    res.cookie('auth_token', token, {httpOnly: true, maxAge:8640000});
+    // res.cookie('auth_token', token, {httpOnly: true, maxAge:8640000});
     res.json({token})
   } catch (error) {  
     console.error("Error logging in lecturer:", error);

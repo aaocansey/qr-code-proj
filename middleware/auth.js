@@ -3,8 +3,8 @@ const lecturerModel = require("../models/lecturerModel");
 
 
 exports.protect = async (req, res, next) => {
-  const {token} = req.body
-  console.log(token);
+  const authHeader = req.headers.authorization
+  const token = authHeader.split(' ')[1]
 
   if (!token) {
     return res.send({
@@ -20,22 +20,18 @@ exports.protect = async (req, res, next) => {
           console.log('ERROR: Could not connect to the protected route');
           res.sendStatus(403);
       } else {
-          //If token is successfully verified, we can send the autorized data 
-          res.json({
-              message: 'Successful log in',
-              decodedData
-          });
           console.log('SUCCESS: Connected to protected route');
-          console.log(`decoded data is ${decodedData}`);
-          let user = await lecturerModel.findOne(decodedData);
-          console.log(user);
-          
+          console.log(decodedData.email);
+          email = decodedData.email
+          let user = await lecturerModel.findOne({email});    
+          // console.log(user);    
           if (!user) {
-            return res.status(500);
+            res.status(500);
           }
           req.user = user;
         }
       });
+      next()
 
   } catch (error) {
     console.log(error)
